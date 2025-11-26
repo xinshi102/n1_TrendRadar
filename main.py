@@ -2731,12 +2731,14 @@ def render_feishu_content(
         word = stat["word"]
         count = stat["count"]
 
-        sequence_display = f"<font color='grey'>[{i + 1}/{total_count}]</font>"
+        # [修改1] 去掉灰色的 font 标签，直接显示序号
+        sequence_display = f"[{i + 1}/{total_count}]"
 
+        # [修改2] 将 red/orange 的 font 标签改为 ** (加粗)，飞书不支持颜色代码
         if count >= 10:
-            text_content += f"🔥 {sequence_display} **{word}** : <font color='red'>{count}</font> 条\n\n"
+            text_content += f"🔥 {sequence_display} **{word}** : **{count}** 条\n\n"
         elif count >= 5:
-            text_content += f"📈 {sequence_display} **{word}** : <font color='orange'>{count}</font> 条\n\n"
+            text_content += f"📈 {sequence_display} **{word}** : **{count}** 条\n\n"
         else:
             text_content += f"📌 {sequence_display} **{word}** : {count} 条\n\n"
 
@@ -2790,15 +2792,18 @@ def render_feishu_content(
 
         text_content += "⚠️ **数据获取失败的平台：**\n\n"
         for i, id_value in enumerate(report_data["failed_ids"], 1):
-            text_content += f"  • <font color='red'>{id_value}</font>\n"
+            # [修改3] 失败平台用红色 font 改为加粗
+            text_content += f"  • **{id_value}**\n"
 
     now = get_beijing_time()
+    # [修改4] 底部时间去掉灰色 font 标签
     text_content += (
-        f"\n\n<font color='grey'>更新时间：{now.strftime('%Y-%m-%d %H:%M:%S')}</font>"
+        f"\n\n更新时间：{now.strftime('%Y-%m-%d %H:%M:%S')}"
     )
 
     if update_info:
-        text_content += f"\n<font color='grey'>TrendRadar 发现新版本 {update_info['remote_version']}，当前 {update_info['current_version']}</font>"
+        # [修改5] 版本信息去掉灰色 font 标签
+        text_content += f"\nTrendRadar 发现新版本 {update_info['remote_version']}，当前 {update_info['current_version']}"
 
     return text_content
 
