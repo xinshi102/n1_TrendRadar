@@ -2805,6 +2805,8 @@ def render_feishu_content(
         # [修改5] 版本信息去掉灰色 font 标签
         text_content += f"\nTrendRadar 发现新版本 {update_info['remote_version']}，当前 {update_info['current_version']}"
 
+    text_content = re.sub(r"</?font[^>]*>", "", text_content)
+
     return text_content
 
 
